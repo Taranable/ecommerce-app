@@ -1,0 +1,9 @@
+-nodemon
+-express
+-dotenv
+-mongoose
+-body-parser
+-cloudinary
+
+--process.on unhandled promise rejection
+-process.env.

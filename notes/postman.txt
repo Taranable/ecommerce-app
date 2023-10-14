@@ -1,0 +1,8 @@
+make a ne collection name as e-commerce
+
+and after that put the url in get and check first route is working or not
+
+http://localhost:4000/api/v1/products
+and check is it giving you the same as put in res.status?
+
+while post api check first put url then in body do none to raw and

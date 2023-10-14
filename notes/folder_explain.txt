@@ -1,0 +1,68 @@
+#app.js:-
+  it is th main folder.
+
+
+ #server.js:-
+ -in this you make servers.
+ -in this we write listen port but make another folder to organise the port no -that is config.env in config folder 
+  
+
+#package.json:-
+ -in this there are all the development dependencies are installed
+ but we maunually write these 2
+ "start": "node backend/server.js",  -it will start the server in node terminal
+ "dev": "nodemon backend/server.js" while in development mode nodemon is running and in profuction mofe it is changed
+
+## controllers and routes:- 
+  -when make these folders always import express./This modular approach allows you to keep your routes organized and separated from your main application logic. You can create multiple router instances for different parts of your application and then mount them as needed
+  
+  -routes of api are made in routes folder like on what url what function is open and the function (in this get and post will so what is defined heres)defined in controllers folder  exported from controllers folder and finally imported all in app.js.
+
+ #controllers:-
+  in this all routes controllers are defined!
+
+
+  #productcontrollers:-
+ in this we define the getallproduct function and exports it
+
+ 
+ #routes:-
+  in this all the routes are defined like route("/products).get(function which is defined in controller folder);
+
+
+#config-
+  in this all configurations files are there
+ 
+ #config.env:-
+  it stores the process.env.PORT value mean port=4000 or anyport
+
+
+ #database.js:-
+
+  in this the databse is connected to trhe server.
+  to connect databse to the server- first import mongoose in database.js folder
+  steps to connect server are:-
+  1. import mongoose
+  2.then connect it like __.connect("mongodb:hostname",{3 objects :true }).then((data)=>{
+    console.log(`Mongodb connected to the server: ${data.connection.host}`)
+  })
+
+
+  #models:-
+  int his api's and models are defined
+
+   #productmodels.js:-
+   in this the schema and model of the product is written and exported to product controller folder
+
+#utils:
+
+here all the utilis are made
+
+  #error handler.js:-
+  here we make a class and define it and export to middlewares
+
+  #middlewares:
+      #error.js:-
+
+      here we make api response for errors and import that to app.js 
+

@@ -1,0 +1,135 @@
+-first things first. make folders (see in folder_explain folder)
+
+-first we make backend of the project- by making a server
+
+-install all the neccesary modules like express,nodemon, dotenv ,
+
+- after that make routes.  as mention in express notes we will mske s organised folder for server creation.
+and make folders for controllers folder for routes 
+
+-run api in postman and before that npm run dev and the address is found and put that in postman
+
+- now connect the server with database (mongodb)-it is defined in database.js folder
+
+-now server is ready and mongodb is connected
+
+VVVIMP##########made restful api of products:-#########VVIMP
+
+in restful one notes we first made 
+schema 
+collection
+post/get/put/delete api url  // route
+then its response or function
+
+but in real projects for the management sake or for organise it we MADE
+1 folder of productmodel 
+2 for productcontroller for response or function 
+3 for routes in productroutes folder
+
+1. made api schema and databse in 1 folder then made 
+now we make product api/routes/database.- make models folder in which all model are made
+now in models - productmodel folder is made in which the restful api of products is made ,schema and model are made to connect with database. and export to productcontrollers folder
+
+now we import to product controller and write function. like create product or remove anything.
+ and in product controller we made function like exports.createproduct and write its function like exports.createProduct= async(req,res,next)=>{
+    const products=await Product.create(req.body);
+    res.status(201).json({
+        success:true,
+        product
+    })
+
+ then export to productroute where its route is created like post or get /put/delete whatever.
+means there its route is decided
+while importing it in routes folder
+
+now same in product controller folder make getallproduct api
+.get and make api and put that in productroutes folderand do same for update and delete
+
+
+now we make a error handling class with the help of oops.
+it ease the errors handling in project.
+so make a folder of utilis and there we write the error handling class and export to
+-now when errorhandler is made and exported now we make a middleware.
+in middleware we make a api and the respnse 
+and then import it in app.js
+
+
+now this error handler is for only product not found apis now we make a error handle for async instead of writing try and catch every where we make a error handler in it esapcially for async await.
+mean if in re.body anything of schema is missing lile(name:" " whichs default was not set in mongoose schema) then it give error or hangup .so we make a error handler for this
+
+so in mniddleware we make a function and  promise with resolve and catch method.\
+and in resolve we give function itself and in catch we give next
+
+and import it in product controller and use that funtion in async or all api defination
+now this type of error is also resolved mean if some on enot pass name price in body of postman then the server is not stopped it will simply throw an error
+
+
+now last type of error in this is - unhandled promise rejections.
+in this type of error server is not crash fully or having a invalid connection string
+so we have to first crsh the server intentionally 
+with process.on module we use unhandledpromiserejections
+and then close the server and exit process.
+and in database we now erase the catch in mongoose .connect
+coz when error occur then we run process.on in server.js
+and now when anything happens to database url or db_url is wrong it will run process.on and server stops
+
+now this unhandledpromiserejections of error is handled .
+
+now 1 type of error is also there uncaught exception 
+mean if we do any error bymistake like write  a console.log("hello");
+and youtube is notdefined so it show uncaught exception 
+how to handle this error is shown below:-
+
+it should be made at top of the file coz if it is below and error is above it so it will not handle it so it is placed on top.
+same process.on("uncaughtExpectation",callback)=>{
+
+}
+
+so by process.on we solve 2 error.- unhandledpromiserejections and uncaughtExpectation error
+
+the main reason to make this error handlers are to see where error is occur and we immediadetly caught that 
+like we define unhandle promise error - for something is wrong in mongoose.connect
+uncaught error - for write anything unespected in program
+
+
+now handle cast error - mean in api of delete or update or getproduct details there is a id 
+when we put id api runwhen product id have same no. of digits but wrong id or invalid- then it show error which is by in errorhandler class. 
+
+but when id is short or long then there is a cast error or wrong mongodb id.
+so make it in error.js
+so same with errorhandler class we make this error handle but with lil diff way
+dee in error.js
+
+
+
+
+
+serach feature in api:-
+
+make a class in class constructor have 2 parameters 1st is query and second is queryStr 
+query is keyword and
+queryStr is the value of keyword or the item or name which we are going to find.
+then make
+
+
+
+spreadout operator = ...  
+The spread operator, often written as ..., is a useful feature in JavaScript that allows you to expand elements from an iterable (e.g., an array or a string) or object into another array or object. It is used for various tasks, such as copying arrays, merging arrays, and passing function arguments. 
+
+ex-
+const originalArray = [1, 2, 3];
+const copiedArray = [...originalArray];
+console.log(copiedArray); // [1, 2, 3]
+
+const array1 = [1, 2, 3];
+const array2 = [4, 5, 6];
+const concatenatedArray = [...array1, ...array2];
+console.log(concatenatedArray); // [1, 2, 3, 4, 5, 6]
+
+
++++++++++++++   i start it after a month and feeling some type of fear ++++++++++
+
+
+do search and filter again
+search --1hr 24
+filter --1hr 35min
