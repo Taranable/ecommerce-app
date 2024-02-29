@@ -39,7 +39,7 @@
 
  #database.js:-
 
-  in this the databse is connected to trhe server.
+  in this the databse is connected to the server.
   to connect databse to the server- first import mongoose in database.js folder
   steps to connect server are:-
   1. import mongoose
