@@ -19,19 +19,33 @@ class apifeatures{
         this.queryStr=queryStr
     };
 
+
+
+// in this search feature this $or is added by me(now you can also search anything in description also i tried to add this feature by simple adding "||" this btween name and description but it doent work so need to enclose objects in array )
+
     search(){
         const keyword =this.queryStr.keyword ? {
-            name: {
-                $regex: this.queryStr.keyword,
-                $options: "i", 
+            $or: [
+                {name:
+                {
+                  $regex: this.queryStr.keyword,
+                  $options: "i",
+                }}
+                ,
+                {description:
+                {
+                  $regex: this.queryStr.keyword,
+                  $options: "i",
+                }}
+              ]
             }
-        }
         :
         {};
         
         console.log(keyword);
 
         this.query =this.query.find({...keyword});
+        //this keyword is also can be put in api controller  
         return this;
 
     }
