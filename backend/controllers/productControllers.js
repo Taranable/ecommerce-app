@@ -1,13 +1,17 @@
 const CatchAsyncError = require("../middleware/catchAsyncError");
-const Product = require("../models/productModel");  //here we import that product schema from productmodels FileSystemDirectoryReader
+const Product = require("../models/productModel");  
 const apifeatures = require("../utils/apifeatures");
 const Errorhandler = require("../utils/errorhandler");
 
 
-//now to create a product there is function.-----only admin access
-// so instead of use try and catch in every statement we make a middleware as
+// so instead of use try and catch in every statement we make a (error handler)middleware as
 //  catchasyncerror which have a function in it and have promise that reslove if everythingok and catch it missing
 
+
+
+
+
+//------------------- create new product!!(admin) ------------------
 exports.createProduct= CatchAsyncError(async(req,res,next)=>{
     const product = await Product.create(req.body);
 
@@ -17,21 +21,11 @@ exports.createProduct= CatchAsyncError(async(req,res,next)=>{
     })
 });
 
-//now import this in productroute.js
 
 
-// // first it is created to check server
-
-// exports.getAllProducts=(req,res)=>{
-    
-//     res.status(200).json({message:"route is working"})   //This code sends a JSON response with a status of 200 (OK) and a message indicating that the route is working. 
-// }   
-
-// //res.status(201), indicating that a new resource has been successfully created.
-//  // it is now function is rady and it will imported by routes folder.
 
 
-// get all products
+//----------------------- get all products!! ----------------------
 exports.getAllProducts= CatchAsyncError(async(req,res)=>{
     const resultPerPage = 10;
     const productCount = await Product.countDocuments();
@@ -50,9 +44,7 @@ exports.getAllProducts= CatchAsyncError(async(req,res)=>{
 })
 
 
-// create an api for update products-- admin route
-//see detail knowlege in onenote restful api notes
-
+//--------------------- To update products!! (admin)------------------
 exports.updateProduct= CatchAsyncError(async(req,res,next)=>{
     let products = await Product.findById(req.params.id);
     if(!products){
@@ -75,8 +67,7 @@ exports.updateProduct= CatchAsyncError(async(req,res,next)=>{
 
 
     
-// create an api for update products --- admin route
-
+//------------------------To Delete product!!(admin) ------------------------
 exports.deleteProduct= CatchAsyncError(async(req,res,next)=>{
     const products = await Product.findById(req.params.id);
     
@@ -94,9 +85,8 @@ exports.deleteProduct= CatchAsyncError(async(req,res,next)=>{
 })
 
 
-//get detail of some prodeuct with id.
-    
-exports.getProductDetails= CatchAsyncError(async(req,res,next)=>{
+//------------------------Detail with Id!!------------------------
+    exports.getProductDetails= CatchAsyncError(async(req,res,next)=>{
     let product = await Product.findById(req.params.id);
     if(!product){
         return next(new Errorhandler("product not found",404));     //next is a type of callback function

@@ -7,3 +7,10 @@
 
 --process.on unhandled promise rejection
 -process.env.
+
+/for user auth
+-bycrptjs
+-jsonwebtoken
+-validator
+-nodemailer
+-cookie-parser

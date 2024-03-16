@@ -1,6 +1,6 @@
-//here we make or extend the prebuild class in js thatis error.
+// OOPS ;-
 
-// this is a syntax of oops ;-
+//here we make or extend the prebuild class in js thatis error.
 // classes()-it is like template and u use it for many users 
 // __proto__ - used to give the value of one method to another
 // constructer() - it is printed default
@@ -10,10 +10,12 @@
 // this error class more info learn from google
 // more in js notes handwritten oops
 
+
+
 class Errorhandler extends Error{
     constructor(message,statusCode){
         super(message);    // it means calling the superclass/parent constructor
-        this.statusCode= statusCode        //this.a=statuscode and statuscode is the parimetar in constructor// This line initializes the statuscode property of the errorhandler instance with the value passed as the statuscpde argument to the errorhandler constructor.
+        this.statusCode= statusCode        //this.a=statuscode and statuscode is the parameter in constructor// This line initializes the statuscode property of the errorhandler instance with the value passed as the statuscpde argument to the errorhandler constructor.
         
         Error.captureStackTrace(this,this.constructor); // its is a method in Error// is used to capture a stack trace for the error object being created. This can be useful for debugging purposes to understand where the error was thrown in your code.
 
@@ -21,11 +23,7 @@ class Errorhandler extends Error{
     
 
 }
-
-// then export this module:
-
- 
- 
+  
 module.exports=Errorhandler
 
 

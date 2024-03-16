@@ -1,5 +1,3 @@
-// how to make server is detailed mentioned in folder explain notes folder
-
 const mongoose =require("mongoose");                    //install mongoose import mongoose
 
 
