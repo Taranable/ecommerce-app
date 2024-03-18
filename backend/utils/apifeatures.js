@@ -21,7 +21,7 @@ class apifeatures {
 
     search() {
         const keyword = this.queryStr.keyword ? {
-            $or:[
+            $or: [
                 {
                     name:
                     {
@@ -41,7 +41,8 @@ class apifeatures {
         }
             :
             {};
-    
+            
+        console.log(keyword)
         this.query = this.query.find({ ...keyword });
         //this keyword is also can be put in api controller  
         return this;
@@ -62,7 +63,7 @@ class apifeatures {
         )
 
         // filter api
-    
+
 
         let queryStr = JSON.stringify(queryStrcopy);
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
