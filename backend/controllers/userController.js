@@ -36,3 +36,6 @@ exports.registerUser = CatchAsyncError( async(req,res,next) => {
   
   }
 )
+
+
+// -------------------------Login User!------------------------
