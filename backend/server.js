@@ -35,7 +35,7 @@ const server = app.listen(process.env.PORT, () => {                             
 
 // it replace the use of catch in database so when error occur it will run
 
-process.on("unhandledRejection", (err) => {  //https://www.geeksforgeeks.org/node-js-process-unhandledpromiserejection-event/
+process.on("unhandledRejection", (err) => {  //https://www.geeksforgeeks.org/node-js-process-unhandledpromiserejectio
   console.log(`error: ${err.message}`);
   console.log("shutting down the server due to unhandled promise rejection");
 
