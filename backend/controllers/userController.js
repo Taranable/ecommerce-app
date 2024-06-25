@@ -2,6 +2,7 @@ const Errorhandler = require("../utils/errorhandler");
 const CatchAsyncError = require("../middleware/catchAsyncError");
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
+const sendToken = require("../utils/jwtToken")
 
 
 
@@ -26,14 +27,15 @@ exports.registerUser = CatchAsyncError( async(req,res,next) => {
   
   //use jwttoken to immediatly login after register:-
   
-  const token = user.getJWTToken(); 
+  // this is also a way but we make a sendtoken function in utils /jwtToken.js
+  // const token = user.getJWTToken(); 
+  // res.status(201).json({
+  //   success: true,
+  //   user,
+  //   token
+  //   });
   
-  res.status(201).json({
-    success: true,
-    user,
-    token
-  });
-  
+  sendToken(user,201,res);
 }
 )
 
@@ -61,13 +63,19 @@ exports.loginUser = CatchAsyncError(async(req,res,next) =>{
 
   if (isPasswordMatched) {
       // If password matches, generate JWT token and send success response
-      const token = user.getJWTToken(); 
-      return res.status(200).json({
-          success: true,
-          token
-      });
+      // const token = user.getJWTToken(); 
+      // return res.status(200).json({
+      //     success: true,
+      //     token
+      // });
+       sendToken(user,200,res);
+
   } else {
       // If password doesn't match, send error response
       return next(new Errorhandler("Email or password is incorrect", 401));
   }
 });
+
+
+
+// ----------------------------------user logout!--------------------------------
