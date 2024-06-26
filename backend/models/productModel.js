@@ -1,6 +1,7 @@
 // --------------------Make RESTful API----------------------
 
 const mongoose =require("mongoose");
+const User = require("../models/userModel")
 
 
 const productSchema = new mongoose.Schema({
@@ -74,7 +75,13 @@ const productSchema = new mongoose.Schema({
         }
     }],
 
-createdAt:{
+   user :{
+      type :mongoose.Schema.ObjectId,
+        ref:"User",
+        required:true,
+    },
+
+    createdAt:{
     type:Date,
     default:Date.now
 }

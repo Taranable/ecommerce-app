@@ -9,7 +9,7 @@ const sendToken = require("../utils/jwtToken")
 
 //------------------------ register a user!! -----------------------------
 exports.registerUser = CatchAsyncError( async(req,res,next) => {
-  const {name,email,password} = req.body;             //here we fetch data in starting
+  const {name,email,password,role} = req.body;             //here we fetch data in starting
   
   // const salt = await bcrypt.genSalt(10);
   // const secpass = await bcrypt.hash(password,salt); //this is one way to hash password
@@ -23,6 +23,7 @@ exports.registerUser = CatchAsyncError( async(req,res,next) => {
       public_id:"this is a sample id",
       url:"profilepicurl",
     },
+    role,
   })
   
   //use jwttoken to immediatly login after register:-
