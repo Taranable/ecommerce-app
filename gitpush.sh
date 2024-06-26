@@ -1,3 +1,7 @@
+# ./gitpush.sh -"message"   - to run the command of gitpushoriginmain.   
+
+
+
 #!/bin/bash
 
 # Check if the current branch is main
