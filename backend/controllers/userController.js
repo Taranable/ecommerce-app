@@ -10,6 +10,7 @@ const { log } = require("console");
 
 
 
+
 //------------------------ register a user!! -----------------------------
 exports.registerUser = CatchAsyncError( async(req,res,next) => {
   const {name,email,password,role} = req.body;             //here we fetch data in starting
@@ -42,6 +43,8 @@ exports.registerUser = CatchAsyncError( async(req,res,next) => {
   sendToken(user,201,res);
 }
 )
+
+
 
 
 
@@ -82,6 +85,11 @@ exports.loginUser = CatchAsyncError(async(req,res,next) =>{
 
 
 
+
+
+
+
+
 // ----------------------------------user logout!--------------------------------
 
 
@@ -98,6 +106,10 @@ exports.logoutUser = CatchAsyncError(async (req, res, next) => {
     message: 'Logged out successfully'
   });
 });
+
+
+
+
 
 
 
@@ -146,6 +158,12 @@ try {
 
 }) ;
 
+
+
+
+
+
+
 // ------------------------reset password-----------------
 
 
@@ -169,7 +187,7 @@ exports.resetPassword= CatchAsyncError(async (req,res,next) =>{
   
   if(req.body.password !== req.body.confirmPassword){
     return next(new Errorhandler("Password does not match",400))
-  }; 
+  }
   
   user.password = req.body.password;
   
@@ -182,3 +200,117 @@ exports.resetPassword= CatchAsyncError(async (req,res,next) =>{
 
 
   })
+
+
+
+
+
+
+
+  //--------------------------get all user-------------------------------------------
+  // admin route
+
+  exports.getAllUsers = CatchAsyncError(async (req,res,next)=>{
+
+    const user = await User.find();
+  
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+
+
+  })
+
+
+
+
+
+
+  //--------------------------get user detail/profile check-------------------------------------------
+
+  exports.getUserDetails = CatchAsyncError(async (req,res,next)=>{
+
+    const user = await User.findById(req.user.id)
+    // .select('name email role ')
+
+
+// .select or we can do this laso
+    const userData = {
+        name:user.name,
+        email: user.email,
+        role: user.role,
+    }
+    
+    res.status(200).json({
+      success: true,
+      // user,
+      userData
+  
+    });
+
+ });
+
+
+ //--------------------Password update/change when login-------------------------------
+
+
+ exports.changePassword= CatchAsyncError(async(req,res,next)=>{
+
+const user = await User.findById(req.user.id).select("+password");
+
+const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+if(!isPasswordMatched){
+  return next(new Errorhandler("old password is incorrect",400));
+}
+
+if(req.body.newPassword !== req.body.confirmPassword){
+  return next(new Errorhandler("New Passwords Does't match",400));
+}
+
+user.password = req.body.newPassword;
+
+await user.save(); 
+
+sendToken(user,200,res)
+
+})
+
+
+
+//-------------------- update/change profile------------------------------
+
+
+exports.updateUserProfile= CatchAsyncError(async(req,res,next)=>{
+  
+  
+  // easy way
+  
+  // const user = await User.findById(req.user.id);
+  
+  //   user.name = req.body.newName
+  //   user.email =req.body.newEmail
+  
+  
+  const newUserData= {
+    name :req.body.newName,
+    email :req.body.newEmail
+    
+  }
+  
+  const user =  await User.findByIdAndUpdate(req.user.id,newUserData,{
+    new:true,
+    runValidators:true,
+    useFindAndModify:false,
+  })
+
+  res.status(200).json({
+    success:true,
+    newUserData,
+  })
+
+
+
+ })
