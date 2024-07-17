@@ -207,60 +207,45 @@ exports.resetPassword= CatchAsyncError(async (req,res,next) =>{
 
 
 
-  //--------------------------get all user-------------------------------------------
-  // admin route
-
-  exports.getAllUsers = CatchAsyncError(async (req,res,next)=>{
-
-    const user = await User.find();
+  
   
 
-    res.status(200).json({
-      success: true,
-      user,
-    });
-
-
-  })
-
-
-
-
-
-
+  
+  
   //--------------------------get user detail/profile check-------------------------------------------
-
+  
   exports.getUserDetails = CatchAsyncError(async (req,res,next)=>{
-
+    
     const user = await User.findById(req.user.id)
     // .select('name email role ')
-
-
-// .select or we can do this laso
+    
+    
+    // .select or we can do this laso
     const userData = {
-        name:user.name,
-        email: user.email,
-        role: user.role,
+      name:user.name,
+      email: user.email,
+      role: user.role,
     }
     
     res.status(200).json({
       success: true,
       // user,
       userData
-  
+      
     });
-
- });
-
-
- //--------------------Password update/change when login-------------------------------
-
-
- exports.changePassword= CatchAsyncError(async(req,res,next)=>{
-
-const user = await User.findById(req.user.id).select("+password");
-
-const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+    
+  });
+  
+  
+  
+  //--------------------Password update/change when login-------------------------------
+  
+  
+  exports.changePassword= CatchAsyncError(async(req,res,next)=>{
+    
+    const user = await User.findById(req.user.id).select("+password");
+    
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
 if(!isPasswordMatched){
   return next(new Errorhandler("old password is incorrect",400));
@@ -305,12 +290,106 @@ exports.updateUserProfile= CatchAsyncError(async(req,res,next)=>{
     runValidators:true,
     useFindAndModify:false,
   })
-
+  
   res.status(200).json({
     success:true,
     newUserData,
   })
+  
+  
+  
+})
 
 
 
- })
+//--------------------------get all user- (admin)------------------------------------------
+// admin route
+
+exports.getAllUsers = CatchAsyncError(async (req,res,next)=>{
+  
+  const user = await User.find();
+  
+  
+  res.status(200).json({
+    success: true,
+    user,
+  });
+  
+  
+})
+
+
+
+//---------------------get single user data (admin)-------------------------------
+
+exports.getSingleUsers = CatchAsyncError(async (req,res,next)=>{
+  
+  const user = await User.findById(req.params.id);
+  
+  
+  if(!user){
+    return next(new Errorhandler(`user does not exist with Id: ${req.params.id}`))
+  }
+  
+  res.status(200).json({
+    success: true,
+    user,
+  });
+  
+  
+})
+
+
+
+//-------------------- roles update/change of user- admin------------------------------
+
+
+exports.changeRoles= CatchAsyncError(async(req,res,next)=>{
+  
+  
+  const roleUpdate= {
+    role :req.body.newRole,
+  }
+  
+  const user =  await User.findByIdAndUpdate(req.params.id,roleUpdate,{
+    new:true,
+    runValidators:true,
+    useFindAndModify:false,
+  })
+
+  if(!user){
+    return next(new Errorhandler("user doesnt exist or deleted ",400))
+  }
+  
+  res.status(200).json({
+    success:true,
+    roleUpdate,
+  })
+  
+})
+
+
+
+
+
+//-------------------- users delete - admin------------------------------
+
+
+exports.userDelete= CatchAsyncError(async(req,res,next)=>{
+
+  const user =  await User.findByIdAndDelete(req.params.id,{
+    new:true,
+    runValidators:true,
+    useFindAndModify:false,
+  })
+
+  if(!user){
+    return next(new Errorhandler(`user doesnt exist or deleted ${req.params.id}`,400))
+  }
+  
+  res.status(200).json({
+    success:true,
+    message:`successfully deleted ${user.name}`
+  })
+  
+})
