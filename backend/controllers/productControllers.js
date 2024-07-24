@@ -1,5 +1,6 @@
 const CatchAsyncError = require("../middleware/catchAsyncError");
 const Product = require("../models/productModel");  
+const { findById } = require("../models/userModel");
 const apifeatures = require("../utils/apifeatures");
 const Errorhandler = require("../utils/errorhandler");
 
@@ -99,7 +100,7 @@ exports.deleteProduct= CatchAsyncError(async(req,res,next)=>{
     res.status(200).json({
         success:true,
         product,
-        productCount,
+    
     })
        
 
@@ -107,3 +108,124 @@ exports.deleteProduct= CatchAsyncError(async(req,res,next)=>{
 
 
 
+
+
+ 
+//------------------------Reviews of products----------
+
+
+
+exports.productReviews = CatchAsyncError(async (req,res,next)=>{
+    const {rating , comment, productId} = req.body;
+    
+    const review = {
+        name:req.user.name,
+        user:req.user._id,
+        rating:Number(rating),
+        comment,
+    }
+    
+    const product = await Product.findById(productId)
+    
+    const isReviewed = product.reviews.find(
+        (rev)=> 
+            rev.name.toString() === req.user._id.toString()
+    );
+    
+    if(isReviewed){
+        product.reviews.forEach((rev)=>{
+            if (rev.name.toString() === req.user._id.toString())
+                (rev.rating= rating),(rev.comment = comment)
+        })
+    }else{
+        product.reviews.push(review);
+        product.numOfReviews = product.reviews.length;
+    }
+    
+    let avg = 0;
+    product.reviews.forEach((rev)=>{
+        avg+= rev.rating;})
+        
+        product.ratings = avg / product.reviews.length;
+        
+        
+        await product.save({validateBeforeSave: false})
+        
+        res.status(200).json({
+            success:true,
+        })
+        
+        
+    }); 
+    
+    
+    
+
+    
+
+
+//----------------------------get all reviews of 1 product--------------------
+
+
+//i use  let productId= req.params.id; instead of  let productId= req.query.id; coz query was not working 
+
+exports.getProductReviews = CatchAsyncError(async (req, res, next) => {
+    // Find the product by ID
+
+    let productId= req.params.id;
+    let product = await Product.findById(productId);
+
+    if (!product) {
+        return next (new Errorhandler("Product not found", 404))
+
+    }
+    res.status(200).json({
+        success: true, 
+        review: product.reviews,
+    });
+});
+
+
+
+
+
+//make this again
+
+
+//----------------------------delete reviews of 1 product--------------------
+
+exports.deleteReviews = CatchAsyncError(async (req, res, next) => {
+    // Find the product by ID
+
+    const product = await Product.findById(req.query.productId);
+
+    if (!product) {
+        return next (new Errorhandler("Product not found", 404))
+       
+    }
+
+const reviews = product.reviews.filter(
+    (rev)=>rev._id.toString() !== req.query.id.toString());
+
+let avg = 0;
+    reviews.forEach((rev)=>{
+        avg+= rev.rating;});
+        
+        const ratings = avg / reviews.length;
+
+        const numOfReviews = reviews.length;
+        await Product.findByIdAndUpdate(req.query.productId,{
+            reviews,
+            ratings,
+            numOfReviews,
+        },{
+            new:true,
+            runValidators:true,
+            useFindAndModify:false,
+        })
+
+    res.status(200).json({
+        success: true, 
+
+    });
+});

@@ -10,7 +10,7 @@ process.on("uncaughtException", (err) => {
 // in package.json new key is also made name dev mean while development we use nodemon
 
 const app = require("./app");
-const dotenv = require("dotenv");                         // we have to install in node mpm i dotenv & import dotenv to use process.env.port
+ const dotenv = require("dotenv");                         // we have to install in node mpm i dotenv & import dotenv to use process.env.port
 // const prt = process.env.PORT; --whwn i do this the port is undefined
 
 
@@ -19,6 +19,7 @@ const connectDatabase = require("./config/database");
 //config
 dotenv.config({ path: "backend/config/config.env" });
 
+
 connectDatabase();  // connecting to db and we call after config file coz if it is connected first then it show error
 
 const server = app.listen(process.env.PORT, () => {                                      //process.env.port function in which  any port is available it will assign automatically to the server
@@ -26,7 +27,6 @@ const server = app.listen(process.env.PORT, () => {                             
 
   console.log(`server is working at http://localhost:${process.env.PORT}`)
 })
-
 //unhandled promise rejection error:- resolve
 // process.on("unhandledRejection", callbackfunction)
 // Parameters: This method takes the following two parameters.

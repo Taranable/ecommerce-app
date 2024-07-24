@@ -300,8 +300,6 @@ exports.updateUserProfile= CatchAsyncError(async(req,res,next)=>{
   
 })
 
-
-
 //--------------------------get all user- (admin)------------------------------------------
 // admin route
 
