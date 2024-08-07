@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser")
 const app = express();
 const product= require("./routes/productRoutes");          
 const user = require("./routes/userRoute");  
+const order = require("./routes/orderRoute");  
 const errorMiddleware= require("./middleware/error")     
 
 
@@ -13,6 +14,7 @@ app.use(cookieParser());
 app.use("/api/v1",product);               //    it use it and make api/v1 as prefix so dont type it always /here we use it also (app.use(product)) but then it is only"/products but now api url is "/api/v1/products"
 //middleware for errors:
 app.use("/api/v1",user);
+app.use("/api/v1",order);
 
 
 app.use(errorMiddleware);
